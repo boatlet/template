@@ -1,5 +1,4 @@
 import React from 'react';
-import Dialog from "./components/dialog"
 class App extends React.Component {
   constructor(props){
     super(props)
@@ -7,10 +6,8 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className={this.path === "exhibition" ? "" : ""}>
-        {
-          Dialog
-        }
+      <div>
+        hello world
       </div>
     )
   }
