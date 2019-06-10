@@ -15,7 +15,7 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         use: 'babel-loader',
         exclude: /node_modules/
       },
@@ -32,6 +32,14 @@ module.exports = {
         use:['style-loader', 'css-loader', 'sass-loader']
       }
     ]
+  },
+  resolve: {
+    extensions: ['*', '.js', '.jsx'],
+    alias: {
+      pages:path.resolve(__dirname,'src/pages/'),
+      util:path.resolve(__dirname,'src/util/'),
+      threejs:path.resolve(__dirname,'src/libs/threejs'),
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({

@@ -1,0 +1,14 @@
+.container{
+  width: 100vw;
+  //background-color: black;
+  height: 100vh;
+  .chart{
+    position: absolute;
+    width: 400px;
+    height: 350px;
+    background-color: #eeeeee;
+    border: 1px solid #ffffff;
+    //display: none;
+  }
+}
+

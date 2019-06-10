@@ -1,4 +1,5 @@
 import React from 'react';
+import Index from "pages/index/index"
 class App extends React.Component {
   constructor(props){
     super(props)
@@ -7,7 +8,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        hello world
+        <Index></Index>
       </div>
     )
   }

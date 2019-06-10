@@ -12,13 +12,15 @@
   "dependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "classnames": "^2.2.6",
-    "echarts": "^4.1.0",
+    "echarts": "^4.2.1",
+    "echarts-for-react": "^2.0.15-beta.0",
     "hmacsha1": "^1.0.0",
     "js-md5": "^0.7.3",
     "node-sass": "^4.12.0",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
     "sass-loader": "^7.1.0",
+    "three": "^0.105.2",
     "url-loader": "^1.1.2",
     "whatwg-fetch": "^3.0.0"
   },
