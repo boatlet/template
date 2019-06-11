@@ -1,34 +1,20 @@
-function resolveTree(node){
+import * as THREE from "three"
+function getClickObj(event,scene){
+  const mouse = new THREE.Vector2();
+  const raycaster = new THREE.Raycaster();
+  //通过鼠标点击的位置计算出raycaster所需要的点的位置，以屏幕中心为原点，值的范围为-1到1.
 
-  const MAX_LENGTH = 10
+  mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+  mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
-  if(node.children){
-    //如果有children 说明该节点是被选中的 标记一下
-    node.itemStyle = {
-      color:"#00ffff"
-    }
-    if(node.children.length){
-      //筛选出被选中的节点的下标 同时剪枝到Max_length
-      let i = 0
-      if(node.children.length >= MAX_LENGTH){
-        node.children = node.children.filter( (v,k)=>{
-          if(v.children){i = k > MAX_LENGTH ? MAX_LENGTH : k}
-          return v.children || k < MAX_LENGTH
-        } )
-      }
-      //把被选中的节点放到最中间（向上取整）
-      let j = Math.floor(node.children.length / 2)
-      let tmp = node.children[j];
-      node.children[j] = node.children[i]
-      node.children[i] = tmp
-      node.children.map(v=>{
-        resolveTree(v)
-      })
-    }else if(node.children.name){
-      node.children = [node.children]
-      resolveTree(node.children[0])
-    }
-  }
+  // 通过鼠标点的位置和当前相机的矩阵计算出raycaster
+  raycaster.setFromCamera( mouse, camera );
+
+  // 获取raycaster直线和所有模型相交的数组集合
+  var intersects = raycaster.intersectObjects( scene.children );
+
+  console.log(intersects);
+  return intersects;
 }
 
-export {resolveTree}
+export {getClickObj}

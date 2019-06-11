@@ -25,6 +25,7 @@ export default class Index extends React.Component{
         <div className={"chart"}>
           <Bar></Bar>
         </div>
+        
       </div>
     )
   }

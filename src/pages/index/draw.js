@@ -2,6 +2,8 @@ import * as THREE from 'three';
 // import {CSS3DRenderer,CSS3DObject} from "threejs/renderers/CSS3DRenderer.js"
 import TrackballControls from 'threejs/controls/TrackballControls';
 import css3Warp from "./css3dRenderer"
+import {getClickObj} from "util/tools.js"
+import { Material } from 'three';
 css3Warp(THREE)
 
 const GUI_SWITCH = false
@@ -15,23 +17,32 @@ export default class Draw {
     this.height = container.clientHeight;
     this.scene = new THREE.Scene();
     this.glScene = new THREE.Scene();
-
     this.initCamera();
-    this.initLight();
     if(GUI_SWITCH){
       this.gui = this.initGui();
     }
   }
 
   initObjs(){
-    const {scene,doms} = this;
-
+    const {glScene,scene,doms} = this;
+    const points = this.drawPath(glScene);
     doms.forEach( (v,k)=>{
       // v.style = 'display:block'
       const obj = new THREE.CSS3DObject(v);
-      obj.position.set(0,0,0);
+      obj.position.copy(points[k+4])
       scene.add(obj)
     } )
+  }
+
+  drawPath(scene){
+    const geometry = new THREE.CircleGeometry(550,5);
+    geometry.rotateX(-0.45 * Math.PI);
+    const material = new THREE.MeshBasicMaterial({color:0xffff00,side:THREE.DoubleSide});
+    const circle = new THREE.Mesh(geometry,material);    
+    scene && scene.add(circle)
+    const points = circle.geometry.vertices;
+    console.log("points",points)
+    return points
   }
 
   initGui() {
@@ -61,25 +72,9 @@ export default class Draw {
       1,
       10000
     ));
-
-    camera.position.set(0,0,1000);
+    camera.position.set(0,0,1500);
     camera.lookAt(new THREE.Vector3(0,0,0))
     window.camera = camera;
-  }
-
-  initLight() {
-    const { scene } = this;
-    const ambienLight = new THREE.AmbientLight(0x353535);
-    scene.add(ambienLight);
-
-    let spotLight = new THREE.SpotLight(0xffffff);
-    spotLight.position.set(0, 2000, 0);
-    spotLight.castShadow = true;
-    scene.add(spotLight);
-    spotLight = new THREE.SpotLight(0xffffff);
-    spotLight.position.set(0, 100, 200);
-    spotLight.castShadow = true;
-    scene.add(spotLight);
   }
 
   initTrackballControls() {
@@ -102,8 +97,17 @@ export default class Draw {
     return trackballControls;
   }
 
+  onClick(e){
+    const {scene} = this;
+    const intersects = getClickObj(e,scene);
+    
+  }
+
   render() {
     const { width, height, container, camera, scene, gui, glScene } = this;
+
+    window.addEventListener('click',this.onClick.bind(this),false)
+
     var axesHelper = new THREE.AxesHelper( 5 );
     glScene.add( axesHelper );
     this.initObjs()
